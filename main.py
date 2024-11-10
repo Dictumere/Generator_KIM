@@ -1,11 +1,12 @@
-from generate_mask import generate_mask
-from generate_ipv4 import generate_ipv4
-from solution import solution
+from solution import find_address_net
+from solution import find_count_mask
+from generators import generate_ip
+from generators import generate_mask
 
 
-def main():
-    ip = generate_ipv4()
-    mask = generate_mask()
+def task_find_address_net():
+    ip = generate_ip()
+    mask = generate_mask(23)
 
     print(f"""
 В терминологии сетей TCP/IP маской сети называют двоичное число, которое 
@@ -17,14 +18,53 @@ IP-адрес: {ip}
 """)
 
     answer = input('Введите ваш ответ: ')
-    right_solution = solution(ip, mask)
+    right_solution = find_address_net(ip, mask)
     if answer == right_solution:
         print('Ответ верный!')
     else:
-        print('Попробуй еще раз!')
+        print(f'Вы ошиблись. Правильный ответ: {right_solution}')
 
-    print(f'Правильный ответ: {right_solution}')
+
+def task_find_3byte_mask():
+    ip = generate_ip()
+    mask = generate_mask(23)
+    net = find_address_net(ip, mask)
+    third_octet = int(net.split('.')[2])
+
+    print(f"""
+В терминологии сетей TCP/IP маска сети – это двоичное число, меньшее 232; в маске сначала (в старших разрядах) стоят единицы, а затем с некоторого места нули. Маска определяет, какая часть IP-адреса узла сети относится к адресу сети, а какая – к адресу самого узла в этой сети. Обычно маска записывается по тем же правилам, что и IP-адрес – в виде четырёх байт, причём каждый байт записывается в виде десятичного числа. Адрес сети получается в результате применения поразрядной конъюнкции к заданному IP-адресу узла и маске.
+Например, если IP-адрес узла равен 221.32.255.131, а маска равна 255.255.240.0, то адрес сети равен 221.32. 240.0.
+
+Для узла с IP-адресом {ip} адрес сети равен {net} Чему равен третий слева байт маски? Ответ запишите в виде десятичного числа.
+""")
+
+    answer = input('Введите ваш ответ: ')
+    right_solution = third_octet
+    if answer == right_solution:
+        print('Ответ верный!')
+    else:
+        print(f'Вы ошиблись. Правильный ответ: {right_solution}')
+
+
+def task_find_count_mask():
+    ip = generate_ip()
+    mask = generate_mask(23)
+    net = find_address_net(ip, mask)
+
+    print(f"""
+В терминологии сетей TCP/IP маска сети – это двоичное число, меньшее 232; в маске сначала (в старших разрядах) стоят единицы, а затем с некоторого места нули. Маска определяет, какая часть IP-адреса узла сети относится к адресу сети, а какая – к адресу самого узла в этой сети. Обычно маска записывается по тем же правилам, что и IP-адрес – в виде четырёх байт, причём каждый байт записывается в виде десятичного числа. Адрес сети получается в результате применения поразрядной конъюнкции к заданному IP-адресу узла и маске.
+Например, если IP-адрес узла равен 221.32.255.131, а маска равна 255.255.240.0, то адрес сети равен 221.32. 240.0.
+
+Для узла с IP-адресом {ip} адрес сети равен {net}. Для скольких различных значений маски это возможно?
+""")
+
+    answer = input('Введите ваш ответ: ')
+    right_solution = find_count_mask(ip, net)
+    if answer == right_solution:
+        print('Ответ верный!')
+    else:
+        print(f'Вы ошиблись. Правильный ответ: {right_solution}')
 
 
 if __name__ == '__main__':
-    main()
+    task_find_count_mask()

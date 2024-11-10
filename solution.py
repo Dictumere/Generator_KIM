@@ -1,17 +1,16 @@
-def solution(ip_adr, mask_net):
-    ip_parts = ip_adr.split('.')
-    mask_parts = mask_net.split('.')
+from ipaddress import ip_network
 
-    network_parts = []
 
-    for i in range(4):
-        ip_part = int(ip_parts[i])
-        mask_part = int(mask_parts[i])
+def find_address_net(ip_adr, mask_net):
+    net = ip_network(f'{ip_adr}/{mask_net}', 0)
+    net = str(net)[:-3]
+    return net
 
-        network_part = ip_part & mask_part
 
-        network_parts.append(str(network_part))
-
-    network_address = ".".join(network_parts)
-
-    return network_address
+def find_count_mask(ip_adr, net):
+    k = 0
+    for mask in range(33):
+        net_r = ip_network(f'{ip_adr}/{mask}', 0)
+        if str(net_r) == f'{net}/{mask}':
+            k += 1
+    return k
