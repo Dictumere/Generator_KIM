@@ -1,4 +1,4 @@
-from solution import find_count_mask
+from solution import find_min_count_network
 
-
-print(find_count_mask('132.47.160.46', '132.47.160.0'))
+# find_min_count_network('98.162.71.94', '98.162.71.64')
+print(find_min_count_network('98.162.71.94', '98.162.71.64'))
