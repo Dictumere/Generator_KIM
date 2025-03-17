@@ -4,7 +4,12 @@ document.getElementById("check-answer").addEventListener("click", function() {
 });
 
 document.getElementById("new-task").addEventListener("click", function() {
-    document.getElementById("task-text").textContent = "Новое случайное задание...";
-    document.getElementById("answer").value = "";
-    document.getElementById("explanation").classList.add("hidden");
+    fetch("/get_task")
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("task-text").textContent = data.task;
+            document.getElementById("explanation").classList.add("hidden");
+        })
+        .catch(error => console.error("Ошибка:", error));
 });
+

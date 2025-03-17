@@ -13,21 +13,17 @@ def task_find_address_net():
     ip = generate_ip()
     mask = generate_mask(23)
 
-    print(f"""
+    task_text = f"""
 В терминологии сетей TCP/IP маской сети называют двоичное число, которое 
 показывает, какая часть IP-адреса  узла сети относится к адресу сети, а какая – к адресу узла 
 в этой сети. Адрес сети получается в результате применения поразрядной конъюнкции к 
 заданному адресу узла и его маске. По заданным IP-адресу узла сети и маске определите адрес сети: 
 IP-адрес: {ip}
 Маска: {mask}
-""")
+"""
 
-    answer = input('Введите ваш ответ: ')
-    right_solution = find_address_net(ip, mask)
-    if answer == right_solution:
-        print('Ответ верный!')
-    else:
-        print(f'Вы ошиблись. Правильный ответ: {right_solution}')
+    correct_answer = find_address_net(ip, mask)
+    return {"task": task_text, "answer": correct_answer}
 
 
 def task_find_3byte_mask():
