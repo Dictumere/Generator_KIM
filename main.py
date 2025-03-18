@@ -7,6 +7,7 @@ from solution import find_min_one_mask
 from solution import find_min_count_network
 from generators import generate_ip
 from generators import generate_mask
+import random
 
 
 def task_find_address_net():
@@ -32,19 +33,15 @@ def task_find_3byte_mask():
     net = find_address_net(ip, mask)
     third_octet = int(net.split('.')[2])
 
-    print(f"""
+    task_text = f"""
 В терминологии сетей TCP/IP маска сети – это двоичное число, меньшее 232; в маске сначала (в старших разрядах) стоят единицы, а затем с некоторого места нули. Маска определяет, какая часть IP-адреса узла сети относится к адресу сети, а какая – к адресу самого узла в этой сети. Обычно маска записывается по тем же правилам, что и IP-адрес – в виде четырёх байт, причём каждый байт записывается в виде десятичного числа. Адрес сети получается в результате применения поразрядной конъюнкции к заданному IP-адресу узла и маске.
 Например, если IP-адрес узла равен 221.32.255.131, а маска равна 255.255.240.0, то адрес сети равен 221.32. 240.0.
 
 Для узла с IP-адресом {ip} адрес сети равен {net} Чему равен третий слева байт маски? Ответ запишите в виде десятичного числа.
-""")
+"""
 
-    answer = input('Введите ваш ответ: ')
-    right_solution = third_octet
-    if answer == right_solution:
-        print('Ответ верный!')
-    else:
-        print(f'Вы ошиблись. Правильный ответ: {right_solution}')
+    correct_answer = third_octet
+    return {"task": task_text, "answer": correct_answer}
 
 
 def task_find_count_mask():
@@ -52,19 +49,14 @@ def task_find_count_mask():
     mask = generate_mask(23)
     net = find_address_net(ip, mask)
 
-    print(f"""
+    task_text = f"""
 В терминологии сетей TCP/IP маска сети – это двоичное число, меньшее 232; в маске сначала (в старших разрядах) стоят единицы, а затем с некоторого места нули. Маска определяет, какая часть IP-адреса узла сети относится к адресу сети, а какая – к адресу самого узла в этой сети. Обычно маска записывается по тем же правилам, что и IP-адрес – в виде четырёх байт, причём каждый байт записывается в виде десятичного числа. Адрес сети получается в результате применения поразрядной конъюнкции к заданному IP-адресу узла и маске.
 Например, если IP-адрес узла равен 221.32.255.131, а маска равна 255.255.240.0, то адрес сети равен 221.32. 240.0.
 
 Для узла с IP-адресом {ip} адрес сети равен {net}. Для скольких различных значений маски это возможно?
-""")
-
-    answer = input('Введите ваш ответ: ')
-    right_solution = find_count_mask(ip, net)
-    if answer == right_solution:
-        print('Ответ верный!')
-    else:
-        print(f'Вы ошиблись. Правильный ответ: {right_solution}')
+"""
+    correct_answer = find_count_mask(ip, net)
+    return {"task": task_text, "answer": correct_answer}
 
 
 # Не правильно считает ответ
@@ -97,7 +89,7 @@ def task_count_one():
     mask = generate_mask(23)
     network = find_address_net(ip_adr, mask)
 
-    print(f"""
+    task_text = f"""
 В терминологии сетей TCP/IP маской сети называется двоичное число, определяющее, какая часть IP-адреса узла сети относится к адресу сети, 
 а какая — к адресу самого узла в этой сети. Обычно маска записывается по тем же правилам, что и IP-адрес, — в виде четырёх байтов, 
 причём каждый байт записывается в виде десятичного числа. При этом в маске сначала (в старших разрядах) стоят единицы, 
@@ -106,14 +98,10 @@ def task_count_one():
 Например, если IP-адрес узла равен 231.32.255.131, а маска равна 255.255.240.0, то адрес сети равен 231.32.240.0.
 
 Для узла с IP-адресом {ip_adr} адрес сети равен {network}. Найдите наибольшее возможное количество единиц в двоичной записи маски подсети
-""")
+"""
 
-    answer = input('Введите ваш ответ: ')
-    right_solution = find_count_one(ip_adr, network)
-    if answer == right_solution:
-        print('Ответ верный!')
-    else:
-        print(f'Вы ошиблись. Правильный ответ: {right_solution}') 
+    correct_answer = find_count_one(ip_adr, network)
+    return {"task": task_text, "answer": correct_answer}
 
 
 def task_third_mask():
@@ -121,7 +109,7 @@ def task_third_mask():
     mask = generate_mask(23)
     network = find_address_net(ip_adr, mask)
 
-    print(f"""
+    task_text = f"""
 В терминологии сетей TCP/IP маской сети называется двоичное число, определяющее, какая часть IP-адреса узла сети относится к адресу сети, 
 а какая — к адресу самого узла в этой сети. Обычно маска записывается по тем же правилам, что и IP-адрес, — в виде четырёх байтов, 
 причём каждый байт записывается в виде десятичного числа. При этом в маске сначала (в старших разрядах) стоят единицы, 
@@ -130,14 +118,10 @@ def task_third_mask():
 Например, если IP-адрес узла равен 231.32.255.131, а маска равна 255.255.240.0, то адрес сети равен 231.32.240.0.
 
 Для узла с IP-адресом {ip_adr} адрес сети равен {network}. Чему равно наибольшее возможное значение третьего слева байта маски? Ответ запишите в виде десятичного числа.
-""")
+"""
 
-    answer = input('Введите ваш ответ: ')
-    right_solution = find_third_mask(ip_adr, network)
-    if answer == right_solution:
-        print('Ответ верный!')
-    else:
-        print(f'Вы ошиблись. Правильный ответ: {right_solution}') 
+    correct_answer = find_third_mask(ip_adr, network)
+    return {"task": task_text, "answer": correct_answer}
 
 
 def task_max_adr_network():
@@ -145,7 +129,7 @@ def task_max_adr_network():
     mask = generate_mask(23)
     network = find_address_net(ip_adr, mask)
 
-    print(f"""
+    task_text = f"""
 В терминологии сетей TCP/IP маской сети называется двоичное число, определяющее, какая часть IP-адреса узла сети относится к адресу сети, 
 а какая — к адресу самого узла в этой сети. Обычно маска записывается по тем же правилам, что и IP-адрес, — в виде четырёх байтов, 
 причём каждый байт записывается в виде десятичного числа. При этом в маске сначала (в старших разрядах) стоят единицы, 
@@ -154,14 +138,10 @@ def task_max_adr_network():
 Например, если IP-адрес узла равен 231.32.255.131, а маска равна 255.255.240.0, то адрес сети равен 231.32.240.0.
 
 Для узла с IP-адресом {ip_adr} адрес сети равен {network}.Чему равно наибольшее количество возможных адресов в этой сети?
-""")
+"""
 
-    answer = input('Введите ваш ответ: ')
-    right_solution = find_max_adr_network(ip_adr, network)
-    if answer == right_solution:
-        print('Ответ верный!')
-    else:
-        print(f'Вы ошиблись. Правильный ответ: {right_solution}') 
+    correct_answer = find_max_adr_network(ip_adr, network)
+    return {"task": task_text, "answer": correct_answer}
 
 
 def task_min_one_mask():
@@ -169,7 +149,7 @@ def task_min_one_mask():
     mask = generate_mask(23)
     network = find_address_net(ip_adr, mask)
 
-    print(f"""
+    task_text = f"""
 В терминологии сетей TCP/IP маской сети называется двоичное число, определяющее, какая часть IP-адреса узла сети относится к адресу сети, 
 а какая — к адресу самого узла в этой сети. Обычно маска записывается по тем же правилам, что и IP-адрес, — в виде четырёх байтов, 
 причём каждый байт записывается в виде десятичного числа. При этом в маске сначала (в старших разрядах) стоят единицы, 
@@ -178,14 +158,10 @@ def task_min_one_mask():
 Например, если IP-адрес узла равен 231.32.255.131, а маска равна 255.255.240.0, то адрес сети равен 231.32.240.0.
 
 Для узла с IP-адресом {ip_adr} адрес сети равен {network}.Каково наименьшее возможное количество единиц в разрядах маски?
-""")
+"""
 
-    answer = input('Введите ваш ответ: ')
-    right_solution = find_min_one_mask(ip_adr, network)
-    if answer == right_solution:
-        print('Ответ верный!')
-    else:
-        print(f'Вы ошиблись. Правильный ответ: {right_solution}')
+    correct_answer = find_min_one_mask(ip_adr, network)
+    return {"task": task_text, "answer": correct_answer}
 
 
 def task_min_count_network():
@@ -193,7 +169,7 @@ def task_min_count_network():
     mask = generate_mask(23)
     network = find_address_net(ip_adr, mask)
 
-    print(f"""
+    task_text = f"""
 В терминологии сетей TCP/IP маской сети называется двоичное число, определяющее, какая часть IP-адреса узла сети относится к адресу сети, 
 а какая — к адресу самого узла в этой сети. Обычно маска записывается по тем же правилам, что и IP-адрес, — в виде четырёх байтов, 
 причём каждый байт записывается в виде десятичного числа. При этом в маске сначала (в старших разрядах) стоят единицы, 
@@ -202,15 +178,20 @@ def task_min_count_network():
 Например, если IP-адрес узла равен 231.32.255.131, а маска равна 255.255.240.0, то адрес сети равен 231.32.240.0.
 
 Для узла с IP-адресом {ip_adr} адрес сети равен {network}. Чему равно наименьшее количество возможных адресов в этой сети?
-""")
+"""
 
-    answer = input('Введите ваш ответ: ')
-    right_solution = find_min_count_network(ip_adr, network)
-    if answer == right_solution:
-        print('Ответ верный!')
-    else:
-        print(f'Вы ошиблись. Правильный ответ: {right_solution}')
+    correct_answer = find_min_count_network(ip_adr, network)
+    return {"task": task_text, "answer": correct_answer}
 
 
-if __name__ == '__main__':
-    task_min_one_mask()
+def execute_random_method():
+    methods = [task_find_address_net,
+               task_find_3byte_mask,
+               task_find_count_mask,
+               task_count_one,
+               task_third_mask,
+               task_max_adr_network,
+               task_min_one_mask,
+               task_min_count_network]
+    selected_method = random.choice(methods)
+    return selected_method()

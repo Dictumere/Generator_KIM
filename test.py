@@ -1,4 +1,5 @@
-from solution import find_min_count_network
+from main import execute_random_method
 
-# find_min_count_network('98.162.71.94', '98.162.71.64')
-print(find_min_count_network('98.162.71.94', '98.162.71.64'))
+# Вызов функции с круглыми скобками, чтобы получить результат
+result = execute_random_method()
+print(result)  # Это должно вывести результат работы функции
