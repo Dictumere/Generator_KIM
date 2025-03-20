@@ -9,9 +9,9 @@
 <body>
     <nav class="header-nav">
         <ul class="menu">
-            <li><a href="index.html" class="menu-item active">Главная</a></li>
-            <li><a href="/tasks" class="menu-item">Войти</a></li>
-            <li><a href="/variants" class="menu-item">Регистрация</a></li>
+            <li><a href="{{ url_for('index') }}" class="menu-item active">Главная</a></li>
+            <li><a href="{{ url_for('login') }}" class="menu-item">Войти</a></li>
+            <li><a href="{{ url_for('register') }}" class="menu-item">Регистрация</a></li>            
         </ul>
     </nav>
     
