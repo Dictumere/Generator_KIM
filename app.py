@@ -13,10 +13,14 @@ def index():
 
 @app.route("/get_task", methods=["GET"])
 def get_task():
-    global current_task
-    current_task = execute_random_method()  # Возвращает случайное задание
-    print(f"Задание: {current_task}")  # Логируем
-    return jsonify({"task": current_task["task"]})
+    global current_task  
+    difficulty = request.args.get("difficulty", "easy")  
+    current_task = execute_random_method(difficulty)
+
+    print(f"DEBUG: current_task = {current_task}")  # <-- Посмотри, есть ли "answer"
+
+    return jsonify({"task": current_task.get("task", "Ошибка: задание не найдено!")})
+
 
 
 @app.route("/check_answer", methods=["POST"])
@@ -26,6 +30,10 @@ def check_answer():
 
     if not user_answer:
         return jsonify({"status": "error", "message": "Ответ не должен быть пустым!"})
+
+    # Проверяем, есть ли ключ 'answer' в current_task
+    if "answer" not in current_task:
+        return jsonify({"status": "error", "message": "Ошибка: нет правильного ответа!"})
 
     is_correct = str(user_answer) == str(current_task["answer"])
 

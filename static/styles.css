@@ -127,3 +127,9 @@ button:hover {
   outline-offset: 5px;
   background-color: #fff
 }
+
+.task {
+  background-color: #fff4e6;
+  padding: 10px;
+  border-left: 4px solid #ff7f0e;
+}

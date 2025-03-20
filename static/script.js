@@ -7,14 +7,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Обработчик клика на кнопку "проверить ответ"
     document.getElementById("check-answer").addEventListener("click", checkAnswer);
+
+    // Добавляем обработчик изменения сложности
+    document.getElementById("difficulty").addEventListener("change", loadNewTask);
 });
 
 // Функция для загрузки нового задания
 function loadNewTask() {
-    fetch("/get_task")
+    let difficulty = document.getElementById("difficulty").value; // Получаем текущую сложность
+
+    fetch(`/get_task?difficulty=${difficulty}`) // Передаем сложность в запросе
         .then(response => response.json())
         .then(data => {
-            console.log("Получено задание:", data);  // Логируем данные задания для отладки
             document.getElementById("task-text").textContent = data.task;
             document.querySelector("input[name='text']").value = "";
             document.getElementById("explanation").classList.add("hidden");
