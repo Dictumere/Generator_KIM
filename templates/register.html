@@ -2,21 +2,28 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Вход</title>
+    <title>Регистрация</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <nav class="header-nav">
         <ul class="menu">
             <li><a href="{{ url_for('index') }}" class="menu-item">Главная</a></li>
-            <li><a href="{{ url_for('login') }}" class="menu-item active">Войти</a></li>
-            <li><a href="{{ url_for('register') }}" class="menu-item">Регистрация</a></li>
+            <li><a href="{{ url_for('login') }}" class="menu-item">Войти</a></li>
+            <li><a href="{{ url_for('register') }}" class="menu-item active">Регистрация</a></li>
         </ul>
     </nav>
 
     <div class="container">
-        <form class="form" method="post" action="/login">
-            <h2 style="margin: 0;">Вход в аккаунт</h2>
+        <form class="form" method="post" action="/register">
+            <h2 style="margin: 0;">Создание аккаунта</h2>
+
+            <div class="flex-column">
+                <label for="username">Имя пользователя</label>
+                <div class="inputForm-1">
+                    <input type="text" id="username" name="username" placeholder="Введите имя" class="inputs" required>
+                </div>
+            </div>
 
             <div class="flex-column">
                 <label for="email">Электронная почта</label>
@@ -32,9 +39,9 @@
                 </div>
             </div>
 
-            <button type="submit" class="button-submit">Войти</button>
+            <button type="submit" class="button-submit">Зарегистрироваться</button>
 
-            <p class="p">Нет аккаунта? <a href="{{ url_for('register') }}" class="span">Зарегистрироваться</a></p>
+            <p class="p">Уже есть аккаунт? <a href="{{ url_for('login') }}" class="span">Войти</a></p>
         </form>
     </div>
 </body>
