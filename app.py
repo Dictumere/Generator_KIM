@@ -141,5 +141,20 @@ def logout():
     return redirect(url_for("index"))
 
 
+@app.route("/clear_history", methods=["POST"])
+def clear_history():
+    if "user_id" not in session:
+        flash("Сначала войди в аккаунт.", "error")
+        return redirect(url_for("login"))
+
+    with sqlite3.connect("users.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM history WHERE user_id = ?", (session["user_id"],))
+        conn.commit()
+
+    flash("История успешно удалена.", "success")
+    return redirect(url_for("profile"))
+
+
 if __name__ == "__main__":
     app.run(debug=True)

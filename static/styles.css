@@ -1,13 +1,16 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  padding-top: 60px;
   background-color: #f4f4f4;
+
+  display: flex;
+  justify-content: center; /* центрирует по горизонтали */
+  align-items: flex-start; /* прижимает к верху */
+  height: 100vh;
+  overflow: hidden; /* чтобы прокручивалась только .container */
 }
+
 
 .container {
   width: 90%;
@@ -16,6 +19,9 @@ body {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  height: calc(100vh - 80px);
+  overflow-y: auto;
 }
 
 header {
