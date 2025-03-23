@@ -58,12 +58,13 @@ def login():
             session["user_id"] = user[0]
             session["username"] = user[1]
             flash("Вы успешно вошли!", "success")
-            return redirect(url_for("profile"))
+            return redirect(url_for("profile"))  # <--- Вот это делает переход
         else:
             flash("Неверная почта или пароль", "error")
             return redirect(url_for("login"))
 
     return render_template("login.html")
+
 
 
 @app.route("/get_task", methods=["GET"])
@@ -72,7 +73,7 @@ def get_task():
     difficulty = request.args.get("difficulty", "easy")  
     current_task = execute_random_method(difficulty)
 
-    print(f"DEBUG: current_task = {current_task}")  # <-- Посмотри, есть ли "answer"
+    print(f"DEBUG: current_task = {current_task}")
 
     return jsonify({"task": current_task.get("task", "Ошибка: задание не найдено!")})
 
@@ -86,17 +87,58 @@ def check_answer():
     if not user_answer:
         return jsonify({"status": "error", "message": "Ответ не должен быть пустым!"})
 
-    # Проверяем, есть ли ключ 'answer' в current_task
     if "answer" not in current_task:
         return jsonify({"status": "error", "message": "Ошибка: нет правильного ответа!"})
 
     is_correct = str(user_answer) == str(current_task["answer"])
+
+    # Сохраняем в БД
+    if "user_id" in session:
+        with sqlite3.connect("users.db") as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO history (user_id, task, user_answer, correct_answer)
+                VALUES (?, ?, ?, ?)
+            """, (
+                session["user_id"],
+                current_task.get("task", ""),
+                user_answer,
+                current_task.get("answer", "")
+            ))
+            conn.commit()
 
     return jsonify({
         "status": "ok",
         "is_correct": is_correct,
         "right_answer": current_task["answer"] if not is_correct else None
     })
+
+
+@app.route("/profile")
+def profile():
+    if "user_id" not in session:
+        flash("Сначала войди в аккаунт.", "error")
+        return redirect(url_for("login"))
+
+    with sqlite3.connect("users.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT task, user_answer, correct_answer FROM history
+            WHERE user_id = ?
+            ORDER BY id DESC
+        """, (session["user_id"],))
+        rows = cursor.fetchall()
+
+    history = [{"task": row[0], "user_answer": row[1], "correct_answer": row[2]} for row in rows]
+
+    return render_template("profile.html", history=history)
+
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash("Вы вышли из аккаунта.", "success")
+    return redirect(url_for("index"))
 
 
 if __name__ == "__main__":

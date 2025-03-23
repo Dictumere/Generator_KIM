@@ -8,19 +8,27 @@
 <body>
     <nav class="header-nav">
         <ul class="menu">
-            <li><a href="{{ url_for('index') }}" class="menu-item">Главная</a></li>
-            <li><a href="{{ url_for('profile') }}" class="menu-item active">Профиль</a></li>
+            <li><a href="{{ url_for('index') }}" class="menu-item {% if request.endpoint == 'index' %}active{% endif %}">Главная</a></li>
+    
+            {% if session.get("user_id") %}
+                <li><a href="{{ url_for('profile') }}" class="menu-item {% if request.endpoint == 'profile' %}active{% endif %}">Профиль</a></li>
+                <li><a href="{{ url_for('logout') }}" class="menu-item">Выйти</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}" class="menu-item {% if request.endpoint == 'login' %}active{% endif %}">Войти</a></li>
+                <li><a href="{{ url_for('register') }}" class="menu-item {% if request.endpoint == 'register' %}active{% endif %}">Регистрация</a></li>
+            {% endif %}
         </ul>
     </nav>
+    
 
     <div class="container">
         <h1>История заданий</h1>
 
         {% if history %}
             <ul>
-                {% for i, item in enumerate(history, start=1) %}
+                {% for item in history %}
                     <li class="task">
-                        <strong>Задание №{{ i }}</strong><br>
+                        <strong>Задание №{{ loop.index }}</strong><br>
                         <strong>Задание:</strong> {{ item.task }}<br>
                         <strong>Ответ пользователя:</strong> {{ item.user_answer }}<br>
                         <strong>Правильный ответ:</strong> {{ item.correct_answer }}

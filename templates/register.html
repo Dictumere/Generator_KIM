@@ -8,11 +8,18 @@
 <body>
     <nav class="header-nav">
         <ul class="menu">
-            <li><a href="{{ url_for('index') }}" class="menu-item">Главная</a></li>
-            <li><a href="{{ url_for('login') }}" class="menu-item">Войти</a></li>
-            <li><a href="{{ url_for('register') }}" class="menu-item active">Регистрация</a></li>
+            <li><a href="{{ url_for('index') }}" class="menu-item {% if request.endpoint == 'index' %}active{% endif %}">Главная</a></li>
+    
+            {% if session.get("user_id") %}
+                <li><a href="{{ url_for('profile') }}" class="menu-item {% if request.endpoint == 'profile' %}active{% endif %}">Профиль</a></li>
+                <li><a href="{{ url_for('logout') }}" class="menu-item">Выйти</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}" class="menu-item {% if request.endpoint == 'login' %}active{% endif %}">Войти</a></li>
+                <li><a href="{{ url_for('register') }}" class="menu-item {% if request.endpoint == 'register' %}active{% endif %}">Регистрация</a></li>
+            {% endif %}
         </ul>
     </nav>
+    
 
     <div class="container">
         <form class="form" method="post" action="/register">
