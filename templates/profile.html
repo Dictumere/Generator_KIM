@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav class="header-nav">
+        <ul class="menu">
+            <li><a href="{{ url_for('index') }}" class="menu-item">Главная</a></li>
+            <li><a href="{{ url_for('profile') }}" class="menu-item active">Профиль</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>История заданий</h1>
+
+        {% if history %}
+            <ul>
+                {% for i, item in enumerate(history, start=1) %}
+                    <li class="task">
+                        <strong>Задание №{{ i }}</strong><br>
+                        <strong>Задание:</strong> {{ item.task }}<br>
+                        <strong>Ответ пользователя:</strong> {{ item.user_answer }}<br>
+                        <strong>Правильный ответ:</strong> {{ item.correct_answer }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>История пока пуста.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

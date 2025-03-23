@@ -1,8 +1,12 @@
-from flask import Flask, render_template, jsonify, request
-from main import execute_random_method  # Убедись, что эта функция существует
+from flask import Flask, render_template, jsonify, request, session
+from main import execute_random_method
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask import Flask, render_template, request, redirect, url_for, flash
+import sqlite3
+
 
 app = Flask(__name__)
-
+app.secret_key = "QWERTY"
 current_task = {}
 
 
@@ -11,13 +15,54 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
+    if request.method == "POST":
+        username = request.form["username"].strip()
+        email = request.form["email"].strip()
+        password = request.form["password"]
+
+        # Хешируем пароль
+        hashed_password = generate_password_hash(password)
+
+        # Сохраняем в базу данных
+        try:
+            with sqlite3.connect("users.db") as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+                    (username, email, hashed_password)
+                )
+                conn.commit()
+                flash("Регистрация прошла успешно. Теперь войди!", "success")
+                return redirect(url_for("login"))
+        except sqlite3.IntegrityError:
+            flash("Пользователь с такой почтой уже зарегистрирован.", "error")
+            return redirect(url_for("register"))
+
     return render_template("register.html")
 
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
+    if request.method == "POST":
+        email = request.form["email"].strip()
+        password = request.form["password"]
+
+        with sqlite3.connect("users.db") as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT id, username, password FROM users WHERE email = ?", (email,))
+            user = cursor.fetchone()
+
+        if user and check_password_hash(user[2], password):
+            session["user_id"] = user[0]
+            session["username"] = user[1]
+            flash("Вы успешно вошли!", "success")
+            return redirect(url_for("profile"))
+        else:
+            flash("Неверная почта или пароль", "error")
+            return redirect(url_for("login"))
+
     return render_template("login.html")
 
 
