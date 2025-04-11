@@ -22,6 +22,7 @@ body {
 
   height: calc(100vh - 80px);
   overflow-y: auto;
+
 }
 
 header {
@@ -138,6 +139,8 @@ button:hover {
   background-color: #fff4e6;
   padding: 10px;
   border-left: 4px solid #ff7f0e;
+  white-space: pre-wrap;
+  font-family: Arial, sans-serif;
 }
 
 /* From Uiverse.io by JohnnyCSilva */ 
