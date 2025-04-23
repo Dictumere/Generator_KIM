@@ -42,6 +42,7 @@ def task_find_3byte_mask():
     correct_answer = third_octet
     return {"task": task_text, "answer": correct_answer}
 
+
 #*
 def task_find_count_mask():
     ip = generate_ip()
