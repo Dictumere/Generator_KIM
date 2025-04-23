@@ -41,7 +41,7 @@
         {% if history %}
             <ul>
                 {% for item in history %}
-                    <li class="task">
+                    <li class="task" style="list-style: none; text-align: left;">
                         <strong>Задание №{{ loop.index }}</strong><br>
                         <strong>Задание:</strong> {{ item.task }}<br>
                         <strong>Ответ пользователя:</strong> {{ item.user_answer }}<br>
